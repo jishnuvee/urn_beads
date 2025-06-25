@@ -1,0 +1,6 @@
+---
+author : "Jishnu Veerapaneni"
+title: "Proportion of red beads"
+format: html
+---
+
