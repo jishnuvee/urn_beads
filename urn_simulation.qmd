@@ -2,5 +2,16 @@
 author : "Jishnu Veerapaneni"
 title: "Proportion of red beads"
 format: html
+
+execute: 
+  echo: false
+  
 ---
+
+```{r}
+#| message: false
+library(tidyverse)
+```
+Incorporating the 4 virtues of data science into sampling. The data source is an urn with 1,000 red and white beads mixed together, which will help us answer our question that if we scoop a certain number of beads from the urn, what proportion of our scoop will be red beads? A potential weakness in the bead model may be that due to a small sample size the standard error or standard deviation of error from the overall population may increase. 
+
 
