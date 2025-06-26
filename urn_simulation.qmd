@@ -1,17 +1,107 @@
 ---
-author : "Jishnu Veerapaneni"
+author: "Jishnu Veerapaneni"
 title: "Proportion of red beads"
 format: html
-
-execute: 
+execute:
   echo: false
-  
 ---
 
 ```{r}
 #| message: false
 library(tidyverse)
+library(tidymodels)
+library(broom)
+library(gt)
+library(ggplot2) 
+
+#| cache: true
+
+# Replace 'color_recipe' and 'color_data' with your actual recipe and dataset
+fit_color <- color_recipe %>%
+  workflow() %>%
+  add_model(logistic_reg()) %>%
+  fit(data = color_data)
+
+#| message: false
+#| warning: false
+
+fit_color %>%
+  tidy(conf.int = TRUE) %>%
+  select(term, estimate, conf.low, conf.high) %>%
+  gt() %>%
+  tab_header(
+    title = "Model Coefficients",
+    subtitle = "Estimates and 95% Confidence Intervals"
+  ) %>%
+  fmt_number(
+    columns = c(estimate, conf.low, conf.high),
+    decimals = 3
+  ) %>%
+  cols_label(
+    term = "Term",
+    estimate = "Estimate",
+    conf.low = "Lower 95% CI",
+    conf.high = "Upper 95% CI"
+  )
+
+  #| fig.width: 6
+#| fig.height: 4
+#| message: false
+
+predictions <- predict(fit_color, color_data, type = "prob") %>%
+  bind_cols(color_data)
+
+ggplot(predictions, aes(x = trial_num, y = .pred_red)) + 
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "loess") +
+  labs(
+    title = "Predicted Probability of Scooping Red Beads",
+    x = "Trial Number",
+    y = "Predicted Probability of Red Bead"
+  ) +
+  theme_minimal()
+
 ```
-Incorporating the 4 virtues of data science into sampling. The data source is an urn with 1,000 red and white beads mixed together, which will help us answer our question that if we scoop a certain number of beads from the urn, what proportion of our scoop will be red beads? A potential weakness in the bead model may be that due to a small sample size the standard error or standard deviation of error from the overall population may increase. 
 
 
+Incorporating the 4 virtues of data science into sampling. The data source is an urn with 1,000 red and white beads mixed together, which will help us answer our question that if we scoop a certain number of beads from the urn, what proportion of our scoop will be red beads? A potential weakness in the bead model may be that due to a small sample size the standard error or standard deviation of error from the overall population may increase. We model the beads as either white or red as a ordinal function of the beads and by using a fitted model, we check predictions to compare our actual data with data that has been simulated from your fitted model.
+
+
+
+
+
+
+
+
+```{r}
+#| cache: true
+
+fit_color <- $$\widehat{\text{logit}(P(\text{color} = \text{red}))} = -0.66$$
+```
+
+
+```{r}
+```{r}
+#| message: false
+#| warning: false
+
+library(broom)
+library(gt)
+
+# Create a tidy summary table with estimates and confidence intervals
+fit_color %>%
+  tidy(conf.int = TRUE) %>%
+  select(term, estimate, conf.low, conf.high) %>%
+  gt() %>%
+  tab_header(
+    title = "Model Coefficients",
+    subtitle = "Estimates and 95% Confidence Intervals"
+  ) %>%
+  fmt_number(
+    columns = c(estimate, conf.low, conf.high),
+    decimals = 3
+  ) %>%
+  cols_label(
+    term = "Term",
+  )
+```

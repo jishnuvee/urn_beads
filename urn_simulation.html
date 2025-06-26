@@ -8,7 +8,7 @@
 
 <meta name="author" content="Jishnu Veerapaneni">
 
-<title>Proportion of red beads</title>
+<title>Proportion of Red Beads</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -47,7 +47,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Proportion of red beads</h1>
+<h1 class="title">Proportion of Red Beads</h1>
 </div>
 
 
@@ -70,7 +70,19 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Incorporating the 4 virtues of data science into sampling. The data source is an urn with 1,000 red and white beads mixed together, which will help us answer our question that if we scoop a certain number of beads from the urn, what proportion of our scoop will be red beads? A potential weakness in the bead model may be that due to a small sample size the standard error or standard deviation of error from the overall population may increase.</p>
+<p>#| message: false library(tidyverse) library(tidymodels) library(broom)</p>
+<section id="example-data-replace-with-model-results-if-available" class="level1">
+<h1>Example data (replace with model results if available)</h1>
+<p>data &lt;- tibble::tibble( color = “red”, estimate = 0.34, # 34% lower = 0.22, # 22% upper = 0.46 # 46% )</p>
+</section>
+<section id="explanatory-paragraph-to-be-included-inside-the-plot-area" class="level1">
+<h1>Explanatory paragraph to be included inside the plot area</h1>
+<p>explanation &lt;- paste( “Incorporating the 4 virtues of data science into sampling. The data source is an urn with”, “1,000 red and white beads mixed together. Our goal is to estimate the proportion of red beads”, “in the urn based on shovel samples. A potential weakness in the bead model is that, with small”, “sample sizes, the standard error can be large, leading to less reliable conclusions.”, “By modeling bead color as a binary outcome (red vs.&nbsp;white) and using logistic regression,”, “we can generate predictions and estimate the population proportion, along with an interval”, “that communicates uncertainty.” )</p>
+</section>
+<section id="plot" class="level1">
+<h1>Plot</h1>
+<p>ggplot(data, aes(x = color, y = estimate)) + annotate(“text”, x = 1, y = 1.05, label = explanation, hjust = 0.5, size = 4, lineheight = 1.2) + geom_point(size = 4, color = “black”) + geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.1, color = “black”) + scale_y_continuous( limits = c(0, 1.15), breaks = seq(0, 1, by = 0.25), labels = scales::percent_format(accuracy = 1) ) + labs( title = “Estimated Proportion of Red Beads Based on Logistic Regression”, subtitle = “A small scoop from an urn gives insight into the whole — but with uncertainty”, x = NULL, y = “Estimated Percentage of Red Beads”, caption = “Data source: 1,000 red and white beads in an urn, modeled using logistic regression” ) + theme_minimal(base_size = 14) + theme( plot.title = element_text(face = “bold”, size = 16), plot.subtitle = element_text(size = 13), plot.caption = element_text(size = 10, hjust = 0), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12), axis.title.y = element_text(size = 13), plot.margin = margin(20, 20, 20, 20) )</p>
+</section>
 
 </main>
 <!-- /main column -->
